@@ -157,8 +157,16 @@
                 }
 
                 // Create custom live events
+				// use addEventListener for touch events:
+            	// .bind('touchstart', handleTouch)
+				document.addEventListener('touchstart',handleTouch,true);
+				
+				/*
+					TODO overwrite the bind and undbind function to reflect addEventListener, if browser is mobile Safari
+					TODO tryout gestureEvents
+				*/
+				
                 $body
-                    .bind('touchstart', handleTouch)
                     .bind('orientationchange', updateOrientation)
                     .trigger('orientationchange')
                     .submit(submitForm);
@@ -560,6 +568,7 @@
         }
         function handleTouch(e) {
             var $el = $(e.target);
+			// console.debug(e.touches); // logs an object if, handleTouch has been set by addEventListener
             
             // Only handle touchSelectors
             if (!$(e.target).is(touchSelectors.join(', '))) {
@@ -596,7 +605,7 @@
                 $el.removeClass('active').unbind('touchmove',touchmove).unbind('touchend',touchend).unbind('touchcancel',touchcancel);
             }
 
-            function touchmove(e) {
+            function touchmove(evt) { // renamen argument to use e from handleTouch
 
                 updateChanges();
                 var absX = Math.abs(deltaX);
@@ -607,11 +616,7 @@
                     $el.trigger('swipe', {direction: (deltaX < 0) ? 'left' : 'right', deltaX: deltaX, deltaY: deltaY }).unbind('touchmove',touchmove).unbind('touchend',touchend).unbind('touchcancel',touchcancel);
                 } else if (absY > 1) {
 					// experimental change to support explicit swipe and explicit moving event
-					$el.trigger('touchmoving',{ x:event.changedTouches[0].clientX,
-												y:event.changedTouches[0].clientY,
-												deltaX: deltaX,
-												deltaY: deltaY}
-								).unbind('touchmove',touchmove).unbind('touchend',touchend).unbind('touchcancel',touchcancel);
+					$el.trigger('touchmoving',{ x:e.touches[0].pageX,y:e.touches[0].pageY,deltaX: deltaX,deltaY: deltaY});
                     $el.removeClass('active');
                 }
 
