@@ -586,7 +586,7 @@
             // Private touch functions (TODO: insert dirty joke)
             function touchcancel(e) {
               clearTimeout(hoverTimeout);
-              $el.removeClass('active').unbind('touchmove',touchmove).unbind('touchend',touchend).unbind('touchcancel',touchcancel);;
+              $el.removeClass('active').unbind('touchmove',touchmove).unbind('touchend',touchend).unbind('touchcancel',touchcancel);
             }
             
             function touchmove(e) {
@@ -599,6 +599,12 @@
                 if (absX > absY && (absX > 35) && deltaT < 1000) {
                     $el.trigger('swipe', {direction: (deltaX < 0) ? 'left' : 'right', deltaX: deltaX, deltaY: deltaY }).unbind('touchmove',touchmove).unbind('touchend',touchend).unbind('touchcancel',touchcancel);
                 } else if (absY > 1) {
+					// experimental change to support explicit swipe and explicit moving event
+					$el.trigger('touchmoving',{ x:event.changedTouches[0].clientX,
+												y:event.changedTouches[0].clientY,
+												deltaX: deltaX,
+												deltaY: deltaY}
+								).unbind('touchmove',touchmove).unbind('touchend',touchend).unbind('touchcancel',touchcancel);
                     $el.removeClass('active');
                 }
 
