@@ -567,6 +567,9 @@
             $body.removeClass('portrait landscape').addClass(orientation).trigger('turn', {orientation: orientation});
         }
         function handleTouch(e) {
+			// var target = (e.target.nodeName=='#text') ? e.target.parentNode:
+			// 											e.target;
+			// 
             var $el = $(e.target);
 			// console.debug(e.touches); // logs an object if, handleTouch has been set by addEventListener
             
