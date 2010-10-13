@@ -567,17 +567,16 @@
             $body.removeClass('portrait landscape').addClass(orientation).trigger('turn', {orientation: orientation});
         }
         function handleTouch(e) {
-			// var target = (e.target.nodeName=='#text') ? e.target.parentNode:
-			// 											e.target;
-			// 
-            var $el = $(e.target);
-			// console.debug(e.touches); // logs an object if, handleTouch has been set by addEventListener
-            
-            // Only handle touchSelectors
+			var target = (e.target instanceof HTMLElement) ? e.target : e.target.parentNode;
+            var $el = $(target);
+			
+            // Only handle touchSelectors, but.....
             if (!$(e.target).is(touchSelectors.join(', '))) {
-                var $link = $(e.target).closest('a, area');
+				// #text nodes prevented this from bubbling and therefor no swipe
+				// [FIX]: get the closest touch selctor, not a or area...
+                var $link = $(e.target).closest(touchSelectors.join(', ')); //'a, area');
                 
-                if ($link.length && $link.is(touchSelectors.join(', '))) {
+                if ($link.length) {
                     $el = $link;
                 } else {
                     return;
