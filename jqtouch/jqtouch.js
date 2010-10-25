@@ -402,7 +402,11 @@
                     }
                     toPage.css('top', 0);
 					fromPage.css('left', 0);
-					$(document).scrollTo(0,0); // produziert zwar fehler - bewirkt aber, dass die toolbar beim scrollen nicht verschwindet
+					
+					// funktioniert nicht, da ein JQuery Object kein scrollTo hat. bzw funktioniert, da funktion nicht ganz ausgeführt wird...
+					// $(document).scrollTo(0,0); // produziert zwar fehler - bewirkt aber, dass die toolbar beim scrollen nicht verschwindet
+					// see other change for fix
+
                 } else {
                     fromPage.removeClass('current');
                 }
@@ -421,6 +425,10 @@
                 }
                 lastAnimationTime = (new Date()).getTime();
                 tapReady = true;
+
+				// prevent scrolling, that hides elements like e.g. the toolbar
+				window.scrollTo(0,0);
+	            
 
             }
 
