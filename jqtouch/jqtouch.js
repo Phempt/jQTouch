@@ -401,6 +401,8 @@
                         fromPage.toggleClass('reverse');
                     }
                     toPage.css('top', 0);
+					fromPage.css('left', 0);
+					$(document).scrollTo(0,0); // produziert zwar fehler - bewirkt aber, dass die toolbar beim scrollen nicht verschwindet
                 } else {
                     fromPage.removeClass('current');
                 }
